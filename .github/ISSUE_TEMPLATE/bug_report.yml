@@ -1,5 +1,5 @@
 name: Bug report
-description: Reportar defeito na baseline ou na infraestrutura do banco.
+description: Report a defect in the baseline or database infrastructure.
 title: "[bug] "
 labels:
   - bug
@@ -7,21 +7,20 @@ body:
   - type: textarea
     id: summary
     attributes:
-      label: Resumo
-      description: Descreva o comportamento observado e o impacto.
+      label: Summary
+      description: Describe the observed behavior and impact.
     validations:
       required: true
   - type: textarea
     id: steps
     attributes:
-      label: Passos para reproduzir
-      description: Liste os passos ou o contexto da execucao.
+      label: Reproduction steps
+      description: List the steps or execution context.
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: Comportamento esperado
+      label: Expected behavior
     validations:
       required: true
-

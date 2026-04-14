@@ -1,10 +1,9 @@
 output "name_prefix" {
-  description = "Prefixo padrao para os recursos do repositorio."
+  description = "Default prefix for repository resources."
   value       = local.name_prefix
 }
 
 output "postgres_identifier" {
-  description = "Nome canonico de referencia para a instancia principal."
+  description = "Canonical reference name for the main instance."
   value       = local.postgres_identifier
 }
-
