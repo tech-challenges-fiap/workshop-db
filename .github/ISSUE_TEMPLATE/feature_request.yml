@@ -1,5 +1,5 @@
 name: Feature request
-description: Solicitar melhoria para a infraestrutura do banco.
+description: Request an enhancement for the database infrastructure.
 title: "[feature] "
 labels:
   - enhancement
@@ -7,20 +7,19 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Problema
-      description: Qual necessidade esta motivando a mudanca?
+      label: Problem
+      description: What need is driving this change?
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: Proposta
-      description: Descreva a solucao desejada.
+      label: Proposal
+      description: Describe the desired solution.
     validations:
       required: true
   - type: textarea
     id: risks
     attributes:
-      label: Riscos e dependencias
-      description: Liste impactos esperados, variaveis e dependencias.
-
+      label: Risks and dependencies
+      description: List expected impacts, variables, and dependencies.

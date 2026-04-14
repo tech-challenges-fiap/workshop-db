@@ -1,12 +1,11 @@
 ## Summary
 
-Descreva a mudanca e o impacto esperado.
+Describe the change and its expected impact.
 
 ## Checklist
 
-- [ ] segue o contrato de ownership do repositorio
-- [ ] nao adiciona migrations ou schema evolutivo
-- [ ] atualiza documentacao local quando necessario
-- [ ] validacao Terraform executada
-- [ ] pronto para merge em `stag` ou `prod`
-
+- [ ] follows the repository ownership contract
+- [ ] does not add migrations or evolutionary schema
+- [ ] updates local documentation when needed
+- [ ] Terraform validation executed
+- [ ] ready to merge into `stag` or `prod`

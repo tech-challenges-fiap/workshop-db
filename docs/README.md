@@ -2,21 +2,21 @@
 
 ## Ownership
 
-- escopo: PostgreSQL gerenciado, configuracao base e credenciais
-- fora do escopo: migrations, schema evolutivo, seeds e dominio da aplicacao
+- scope: managed PostgreSQL, baseline configuration, and credentials
+- out of scope: migrations, evolutionary schema, seeds, and application domain logic
 
-## Estrutura inicial
+## Initial structure
 
-- `terraform/`: baseline Terraform do repositorio
-- `.github/`: templates, ownership e automacao minima
+- `terraform/`: repository Terraform baseline
+- `.github/`: templates, ownership, and minimum automation
 
-## Ambientes
+## Environments
 
-- branch `stag` publica no ambiente `staging`
-- branch `prod` publica no ambiente `production`
-- sufixos AWS: `stag` e `prod`
+- branch `stag` deploys into `staging`
+- branch `prod` deploys into `production`
+- AWS suffixes: `stag` and `prod`
 
-## Variaveis e secrets esperados por ambiente
+## Expected environment variables and secrets
 
 - `AWS_REGION`
 - `AWS_ROLE_ARN`
@@ -24,4 +24,3 @@
 - `DB_SUBNET_GROUP`
 - `DATADOG_API_KEY`
 - `DATADOG_APP_KEY`
-

@@ -1,25 +1,24 @@
 # workshop-db
 
-Infraestrutura gerenciada do PostgreSQL do projeto `workshop`.
+Managed PostgreSQL infrastructure for the `workshop` project.
 
-## Proposito
+## Purpose
 
-Este repositorio concentra o provisionamento e a configuracao base do banco
-PostgreSQL em AWS. Ele nao contem migrations, seeds ou regra de negocio.
+This repository owns PostgreSQL provisioning and baseline configuration in AWS.
+It does not contain migrations, seeds, or business logic.
 
-## Stack principal
+## Main stack
 
 - Terraform
 - AWS
 - PostgreSQL
 
-## Estrategia de deploy
+## Deployment strategy
 
-- `feature/* -> stag`: Pull Request com validacao Terraform e deploy em `staging`
-- `stag -> prod`: Pull Request de promocao com deploy em `production`
-- autenticacao AWS via OIDC, sem chaves estaticas no repositorio
+- `feature/* -> stag`: Pull Request with Terraform validation and deployment to `staging`
+- `stag -> prod`: promotion Pull Request with deployment to `production`
+- AWS authentication through OIDC, without static keys in the repository
 
-## Documentacao local
+## Local documentation
 
 - [docs/README.md](docs/README.md)
-
