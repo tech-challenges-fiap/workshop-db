@@ -1,0 +1,26 @@
+name: Feature request
+description: Solicitar melhoria para a infraestrutura do banco.
+title: "[feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: Qual necessidade esta motivando a mudanca?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Descreva a solucao desejada.
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Riscos e dependencias
+      description: Liste impactos esperados, variaveis e dependencias.
+

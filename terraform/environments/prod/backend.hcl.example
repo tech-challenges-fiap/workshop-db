@@ -1,0 +1,4 @@
+bucket = "workshop-db-prod-tfstate"
+key    = "terraform.tfstate"
+region = "us-east-1"
+
