@@ -26,3 +26,139 @@ variable "resource_suffix" {
   type        = string
   default     = "postgres"
 }
+
+variable "aws_region" {
+  description = "AWS region used by the provider and backend."
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "vpc_id" {
+  description = "VPC identifier that hosts the database."
+  type        = string
+}
+
+variable "private_subnet_ids" {
+  description = "Private subnet identifiers used by the DB subnet group."
+  type        = list(string)
+
+  validation {
+    condition     = length(var.private_subnet_ids) >= 2
+    error_message = "private_subnet_ids must contain at least two subnets."
+  }
+}
+
+variable "allowed_security_group_ids" {
+  description = "Security groups allowed to connect to PostgreSQL."
+  type        = list(string)
+  default     = []
+}
+
+variable "allowed_cidr_blocks" {
+  description = "CIDR ranges allowed to connect to PostgreSQL."
+  type        = list(string)
+  default     = []
+}
+
+variable "db_name" {
+  description = "Initial PostgreSQL database name."
+  type        = string
+  default     = "workshop"
+
+  validation {
+    condition     = can(regex("^[A-Za-z][A-Za-z0-9_]{0,62}$", var.db_name))
+    error_message = "db_name must start with a letter and contain only letters, numbers, or underscores."
+  }
+}
+
+variable "db_master_username" {
+  description = "Master username stored in Secrets Manager and used by RDS."
+  type        = string
+  default     = "workshop_admin"
+
+  validation {
+    condition     = can(regex("^[A-Za-z][A-Za-z0-9_]{0,62}$", var.db_master_username))
+    error_message = "db_master_username must start with a letter and contain only letters, numbers, or underscores."
+  }
+}
+
+variable "db_port" {
+  description = "PostgreSQL listener port."
+  type        = number
+  default     = 5432
+}
+
+variable "engine_version" {
+  description = "PostgreSQL engine version."
+  type        = string
+  default     = "16.4"
+}
+
+variable "db_instance_class" {
+  description = "RDS instance class override."
+  type        = string
+  default     = null
+}
+
+variable "allocated_storage" {
+  description = "Initial allocated storage in GiB."
+  type        = number
+  default     = null
+}
+
+variable "max_allocated_storage" {
+  description = "Maximum autoscaled storage in GiB."
+  type        = number
+  default     = null
+
+  validation {
+    condition     = var.max_allocated_storage == null || var.allocated_storage == null || var.max_allocated_storage >= var.allocated_storage
+    error_message = "max_allocated_storage must be greater than or equal to allocated_storage."
+  }
+}
+
+variable "backup_retention_period" {
+  description = "Automated backup retention in days."
+  type        = number
+  default     = null
+}
+
+variable "backup_window" {
+  description = "Preferred backup window in UTC."
+  type        = string
+  default     = null
+}
+
+variable "maintenance_window" {
+  description = "Preferred maintenance window in UTC."
+  type        = string
+  default     = null
+}
+
+variable "multi_az" {
+  description = "Whether the RDS instance is deployed in Multi-AZ mode."
+  type        = bool
+  default     = null
+}
+
+variable "deletion_protection" {
+  description = "Whether deletion protection is enabled."
+  type        = bool
+  default     = null
+}
+
+variable "apply_immediately" {
+  description = "Apply changes immediately instead of during the maintenance window."
+  type        = bool
+  default     = false
+}
+
+variable "parameter_overrides" {
+  description = "Additional PostgreSQL parameter group entries."
+  type = list(object({
+    name         = string
+    value        = string
+    apply_method = optional(string, "pending-reboot")
+  }))
+  default = []
+}

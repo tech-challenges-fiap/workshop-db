@@ -1,11 +1,13 @@
 .terraform/
-.terraform.lock.hcl
+*.auto.tfvars
+*.auto.tfvars.json
 *.tfstate
 *.tfstate.*
+*.tfplan
+backend.hcl
 crash.log
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
 .DS_Store
-

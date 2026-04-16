@@ -8,14 +8,30 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   terraform:
     name: terraform
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.base_ref == 'prod' && 'production' || 'staging' }}
     defaults:
       run:
         working-directory: terraform
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      DB_ALLOWED_CIDR_BLOCKS: ${{ vars.DB_ALLOWED_CIDR_BLOCKS }}
+      DB_ALLOWED_SECURITY_GROUP_IDS: ${{ vars.DB_ALLOWED_SECURITY_GROUP_IDS }}
+      DB_MASTER_USERNAME: ${{ vars.DB_MASTER_USERNAME }}
+      DB_NAME: ${{ vars.DB_NAME }}
+      DB_PRIVATE_SUBNET_IDS: ${{ vars.DB_PRIVATE_SUBNET_IDS }}
+      DB_VPC_ID: ${{ vars.DB_VPC_ID }}
+      TARGET_ENV: ${{ github.base_ref == 'prod' && 'prod' || 'stag' }}
+      TF_IN_AUTOMATION: true
+      TF_INPUT: false
+      TF_STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+      TF_STATE_KEY: ${{ vars.TF_STATE_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,12 +39,49 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+
+      - name: Prepare Terraform variables
+        run: |
+          set -euo pipefail
+
+          cat <<EOF > ci.auto.tfvars.json
+          {
+            "allowed_cidr_blocks": ${DB_ALLOWED_CIDR_BLOCKS:-[]},
+            "allowed_security_group_ids": ${DB_ALLOWED_SECURITY_GROUP_IDS},
+            "aws_region": "${AWS_REGION}",
+            "db_master_username": "${DB_MASTER_USERNAME:-workshop_admin}",
+            "db_name": "${DB_NAME:-workshop}",
+            "environment": "${TARGET_ENV}",
+            "private_subnet_ids": ${DB_PRIVATE_SUBNET_IDS},
+            "repo": "db",
+            "vpc_id": "${DB_VPC_ID}"
+          }
+          EOF
+
+      - name: Prepare backend config
+        run: |
+          set -euo pipefail
+
+          cat <<EOF > backend.hcl
+          bucket       = "${TF_STATE_BUCKET}"
+          key          = "${TF_STATE_KEY:-terraform.tfstate}"
+          region       = "${AWS_REGION}"
+          use_lockfile = true
+          EOF
+
       - name: Terraform fmt
         run: terraform fmt -check -recursive
 
       - name: Terraform init
-        run: terraform init -backend=false
+        run: terraform init -backend-config=backend.hcl
 
       - name: Terraform validate
         run: terraform validate
 
+      - name: Terraform plan
+        run: terraform plan -refresh=false -out=tfplan
