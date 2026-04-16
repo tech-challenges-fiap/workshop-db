@@ -1,6 +1,6 @@
 # workshop-db
 
-`workshop-db` owns PostgreSQL infrastructure for the `workshop` platform split.
+`workshop-db` owns PostgreSQL infrastructure for the `workshop` service.
 It provisions and names managed database resources, but it does not own schema
 evolution or application behavior.
 
@@ -11,7 +11,7 @@ evolution or application behavior.
 - database-focused CI validation and deployment workflow
 
 This repository does not own migrations, seeds, application runtime code, or
-edge/platform delivery logic.
+shared runtime platform logic.
 
 ## Provisioned Surface
 

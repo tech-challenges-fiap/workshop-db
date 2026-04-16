@@ -2,9 +2,8 @@
 
 ## Mission
 
-Work in `workshop-db` as the database infrastructure repository for the
-workshop split. Keep this repo focused on PostgreSQL provisioning concerns and
-Terraform contracts.
+Work in `workshop-db` as a database infrastructure repository. Keep this repo
+focused on PostgreSQL provisioning concerns and Terraform contracts.
 
 ## Scope Boundaries
 
@@ -19,12 +18,8 @@ Out of scope:
 
 - application runtime code
 - migrations and seeds unless ownership is explicitly changed
-- API Gateway or Lambda behavior
-- shared platform infrastructure such as EKS, networking, or ingress
-
-If a change belongs to `workshop-app`, `workshop-edge`, or
-`workshop-platform`, document the dependency instead of moving that
-responsibility here.
+- gateway behavior
+- shared platform infrastructure such as networking or ingress
 
 ## Read First
 

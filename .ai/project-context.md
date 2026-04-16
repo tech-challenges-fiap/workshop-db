@@ -2,9 +2,8 @@
 
 ## Purpose
 
-`workshop-db` is the database infrastructure repository for the workshop split.
-It should provision PostgreSQL resources and related baseline database
-infrastructure over time.
+`workshop-db` is the database infrastructure repository. It provisions
+PostgreSQL resources and related database infrastructure.
 
 ## Current State
 
@@ -12,11 +11,11 @@ infrastructure over time.
 - RDS, subnet group, security group, parameter group, and credentials secret
 - CI validation, promotion policy, and environment-specific apply workflow
 
-## Adjacent Repositories
+## Operating Constraint
 
-- `workshop-app`: application logic and future database consumer
-- `workshop-edge`: edge contracts, not database provisioning
-- `workshop-platform`: shared platform infrastructure
+- keep the repository focused on database provisioning
+- treat schema, seeds, and queries as out of scope unless ownership changes
+- document only resources and interfaces that Terraform actually defines
 
 ## Important Workflow
 

@@ -1,7 +1,7 @@
 # workshop-db docs
 
-This directory explains how `workshop-db` should evolve into the dedicated
-database infrastructure repository for the workshop platform split.
+This directory explains how `workshop-db` should be developed and maintained as
+a standalone database infrastructure repository.
 
 ## Read This First
 
@@ -12,7 +12,7 @@ database infrastructure repository for the workshop platform split.
 
 ## Document Map
 
-- [architecture.md](architecture.md) - current boundaries, dependencies, and target database role
+- [architecture.md](architecture.md) - current boundaries and database architecture guidance
 - [development.md](development.md) - Terraform workflow, validation commands, and doc rules
 - [../AGENTS.md](../AGENTS.md) - repo instructions for AI agents
 - [../.ai/project-context.md](../.ai/project-context.md) - compact AI-readable project context
@@ -29,5 +29,5 @@ database infrastructure repository for the workshop platform split.
 
 - `terraform/modules/postgresql` owns the reusable PostgreSQL building blocks
 - `terraform/environments/stag` and `terraform/environments/prod` document backend and input examples
-- root Terraform outputs are the contract consumed by `workshop-app` and `workshop-edge`
-- this repo still does not own migrations, Drizzle schema, seeds, or queries
+- root Terraform outputs define the database connection contract exposed by this repository
+- this repo still does not own migrations, schema, seeds, or queries

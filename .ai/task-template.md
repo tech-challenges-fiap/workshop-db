@@ -21,4 +21,4 @@ Describe the infrastructure or documentation outcome.
 
 ## Out Of Scope
 
-- list adjacent concerns that belong to other repositories
+- list concerns intentionally excluded from the task

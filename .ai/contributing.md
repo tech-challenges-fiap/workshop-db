@@ -15,4 +15,4 @@
 - repository boundary correctness
 - Terraform contract accuracy
 - environment naming consistency
-- no accidental application or platform responsibility creep
+- no accidental scope creep into application or shared platform concerns

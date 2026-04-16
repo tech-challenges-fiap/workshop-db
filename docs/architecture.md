@@ -1,11 +1,10 @@
 # workshop-db Architecture
 
-## Role in the Split
+## Role
 
-`workshop-db` is the database infrastructure repository for the workshop split.
-Its long-term role is to provision and manage the PostgreSQL foundations that
-support the application, while leaving schema evolution and business rules to
-other repositories.
+`workshop-db` is the database infrastructure repository. It provisions and
+manages PostgreSQL foundations while leaving schema evolution and business
+logic out of scope.
 
 ## Boundaries
 
@@ -15,12 +14,8 @@ This repository owns:
 - environment-specific database naming and baseline inputs
 - Terraform validation and database-focused deployment workflows
 
-This repository does not own:
-
-- application domain logic
-- migrations and seeds executed by the app runtime
-- API Gateway or Lambda behavior
-- cluster-wide platform capabilities such as EKS or ingress
+This repository does not own application logic, migrations, seeds, gateway
+behavior, or shared runtime platform capabilities.
 
 ## Current Implementation Surface
 
@@ -31,17 +26,11 @@ Today the repository provisions a minimal managed PostgreSQL stack:
 - `terraform/outputs.tf` exposes the database connection contract
 - `terraform/versions.tf` configures the AWS and random providers plus the S3 backend interface
 
-## Dependencies and Interactions
+## Exposed Contract
 
-- `workshop-app` is the future primary consumer of the database provisioned here.
-- `workshop-platform` is expected to own shared runtime infrastructure where the app may execute.
-- `workshop-edge` may depend on application-level interfaces that ultimately store data in infrastructure managed here, but it should not provision database resources itself.
-
-## Contracts With Adjacent Repositories
-
-- `workshop-platform` is expected to provide the VPC, private subnet IDs, and upstream security groups consumed here as inputs.
-- `workshop-app` consumes `db_host`, `db_port`, `db_name`, and `db_secret_arn`, but keeps ownership of migrations, schema, and seeds.
-- `workshop-edge` may consume the same secret and security group contract when the `auth-cpf` Lambda needs direct database access.
+This repository exposes infrastructure outputs such as host, port, database
+name, secret ARN, and security group identifiers. Those outputs are part of the
+public infrastructure contract of this repository.
 
 ## Managed Resources
 
@@ -55,4 +44,4 @@ Today the repository provisions a minimal managed PostgreSQL stack:
 
 - Do not move migrations, seeds, or ORM-specific files into this repo by default.
 - Do not add application runtime behavior here.
-- Do not treat this repo as the owner of platform-wide networking or cluster concerns.
+- Do not treat this repo as the owner of shared networking or cluster concerns.
