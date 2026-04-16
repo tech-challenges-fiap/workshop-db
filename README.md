@@ -1,24 +1,65 @@
 # workshop-db
 
-Managed PostgreSQL infrastructure for the `workshop` project.
+`workshop-db` owns PostgreSQL infrastructure for the `workshop` service.
+It provisions and names managed database resources, but it does not own schema
+evolution or application behavior.
 
-## Purpose
+## What This Repository Owns
 
-This repository owns PostgreSQL provisioning and baseline configuration in AWS.
-It does not contain migrations, seeds, or business logic.
+- Terraform composition for `stag` and `prod`
+- managed PostgreSQL infrastructure in AWS
+- database-focused CI validation and deployment workflow
 
-## Main stack
+This repository does not own migrations, seeds, application runtime code, or
+shared runtime platform logic.
 
-- Terraform
-- AWS
-- PostgreSQL
+## Provisioned Surface
 
-## Deployment strategy
+The Terraform stack now provisions:
 
-- `feature/* -> stag`: Pull Request with Terraform validation and deployment to `staging`
-- `stag -> prod`: promotion Pull Request with deployment to `production`
-- AWS authentication through OIDC, without static keys in the repository
+- one PostgreSQL RDS instance per environment
+- one DB subnet group
+- one database security group with controlled ingress
+- one PostgreSQL parameter group
+- one Secrets Manager secret with credentials and connection metadata
 
-## Local documentation
+Formal outputs exposed by the root module:
 
-- [docs/README.md](docs/README.md)
+- `db_host`
+- `db_port`
+- `db_name`
+- `db_secret_arn`
+- `db_security_group_id`
+
+## Local Commands
+
+Minimal validation without touching remote state:
+
+```bash
+cd terraform
+terraform fmt -check -recursive
+terraform init -backend=false
+terraform validate
+```
+
+Environment plan with real backend and AWS access:
+
+```bash
+cd terraform
+terraform init -reconfigure -backend-config=environments/stag/backend.hcl.example
+terraform plan -var-file=environments/stag/terraform.tfvars.example
+```
+
+## Delivery Flow
+
+- `feature/* -> stag`: Pull Request validated by Terraform formatting, validation, and plan
+- `stag -> prod`: promotion Pull Request allowed only from `stag`
+- `push` to `stag` or `prod`: deployment workflow uses AWS OIDC and runs Terraform apply
+- `prod` Pull Requests: drift-report and promotion-source workflows enforce branch discipline
+
+## Documentation
+
+- [docs/README.md](docs/README.md) - docs index and reading guide
+- [docs/architecture.md](docs/architecture.md) - repository boundaries and target database role
+- [docs/development.md](docs/development.md) - Terraform workflow, validation, and documentation rules
+- [AGENTS.md](AGENTS.md) - instructions for AI contributors
