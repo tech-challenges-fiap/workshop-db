@@ -52,7 +52,7 @@ jobs:
           cat <<EOF > ci.auto.tfvars.json
           {
             "allowed_cidr_blocks": ${DB_ALLOWED_CIDR_BLOCKS:-[]},
-            "allowed_security_group_ids": ${DB_ALLOWED_SECURITY_GROUP_IDS},
+            "allowed_security_group_ids": ${DB_ALLOWED_SECURITY_GROUP_IDS:-[]},
             "aws_region": "${AWS_REGION}",
             "db_master_username": "${DB_MASTER_USERNAME:-workshop_admin}",
             "db_name": "${DB_NAME:-workshop}",

@@ -12,11 +12,39 @@ permissions:
   id-token: write
 
 jobs:
+  validate-ref:
+    name: validate ref
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_env: ${{ steps.ref.outputs.deploy_env }}
+      github_environment: ${{ steps.ref.outputs.github_environment }}
+    steps:
+      - name: Validate deploy branch
+        id: ref
+        run: |
+          set -euo pipefail
+
+          case "${GITHUB_REF_NAME}" in
+            stag)
+              echo "deploy_env=stag" >> "${GITHUB_OUTPUT}"
+              echo "github_environment=staging" >> "${GITHUB_OUTPUT}"
+              ;;
+            prod)
+              echo "deploy_env=prod" >> "${GITHUB_OUTPUT}"
+              echo "github_environment=production" >> "${GITHUB_OUTPUT}"
+              ;;
+            *)
+              echo "Deploy is only allowed from stag or prod branches." >&2
+              exit 1
+              ;;
+          esac
+
   deploy:
     name: deploy
+    needs: validate-ref
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.ref_name == 'stag' && 'staging' || 'production' }}
+      name: ${{ needs.validate-ref.outputs.github_environment }}
     defaults:
       run:
         working-directory: terraform
@@ -28,7 +56,7 @@ jobs:
       DB_NAME: ${{ vars.DB_NAME }}
       DB_PRIVATE_SUBNET_IDS: ${{ vars.DB_PRIVATE_SUBNET_IDS }}
       DB_VPC_ID: ${{ vars.DB_VPC_ID }}
-      DEPLOY_ENV: ${{ github.ref_name == 'stag' && 'stag' || 'prod' }}
+      DEPLOY_ENV: ${{ needs.validate-ref.outputs.deploy_env }}
       TF_IN_AUTOMATION: true
       TF_INPUT: false
       TF_STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
@@ -64,7 +92,7 @@ jobs:
           cat <<EOF > ci.auto.tfvars.json
           {
             "allowed_cidr_blocks": ${DB_ALLOWED_CIDR_BLOCKS:-[]},
-            "allowed_security_group_ids": ${DB_ALLOWED_SECURITY_GROUP_IDS},
+            "allowed_security_group_ids": ${DB_ALLOWED_SECURITY_GROUP_IDS:-[]},
             "aws_region": "${AWS_REGION}",
             "db_master_username": "${DB_MASTER_USERNAME:-workshop_admin}",
             "db_name": "${DB_NAME:-workshop}",
