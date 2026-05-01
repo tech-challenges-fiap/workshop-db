@@ -4,23 +4,23 @@ locals {
   environment_defaults = {
     stag = {
       allocated_storage       = 20
-      backup_retention_period = 7
+      backup_retention_period = 1
       backup_window           = "04:00-05:00"
       db_instance_class       = "db.t4g.micro"
       deletion_protection     = false
       maintenance_window      = "Mon:03:00-Mon:04:00"
-      max_allocated_storage   = 100
+      max_allocated_storage   = 25
       multi_az                = false
     }
     prod = {
-      allocated_storage       = 50
-      backup_retention_period = 14
+      allocated_storage       = 20
+      backup_retention_period = 1
       backup_window           = "03:00-04:00"
-      db_instance_class       = "db.t4g.small"
-      deletion_protection     = true
+      db_instance_class       = "db.t4g.micro"
+      deletion_protection     = false
       maintenance_window      = "Sun:02:00-Sun:03:00"
-      max_allocated_storage   = 200
-      multi_az                = true
+      max_allocated_storage   = 25
+      multi_az                = false
     }
   }
 

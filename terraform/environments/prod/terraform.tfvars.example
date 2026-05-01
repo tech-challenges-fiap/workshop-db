@@ -13,11 +13,11 @@ allowed_security_group_ids = [
 
 db_name                 = "workshop"
 db_master_username      = "workshop_admin"
-db_instance_class       = "db.t4g.small"
-allocated_storage       = 50
-max_allocated_storage   = 200
-backup_retention_period = 14
+db_instance_class       = "db.t4g.micro"
+allocated_storage       = 20
+max_allocated_storage   = 25
+backup_retention_period = 1
 backup_window           = "03:00-04:00"
 maintenance_window      = "Sun:02:00-Sun:03:00"
-multi_az                = true
-deletion_protection     = true
+multi_az                = false
+deletion_protection     = false

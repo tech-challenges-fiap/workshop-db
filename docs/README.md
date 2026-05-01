@@ -30,6 +30,7 @@ a standalone database infrastructure repository.
 - `terraform/modules/postgresql` owns the reusable PostgreSQL building blocks
 - `terraform/environments/stag` and `terraform/environments/prod` document backend and input examples
 - root Terraform outputs define the database connection contract exposed by this repository
+- default sizing is intentionally cost-optimized for coursework: `db.t4g.micro`, 20 GiB gp3 storage, Single-AZ, and 1 day of automated backup retention
 - this repo still does not own migrations, schema, seeds, or queries
 
 ## GitHub Environment Variables
