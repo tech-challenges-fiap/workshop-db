@@ -1,24 +1,38 @@
 # workshop-db docs
 
-## Ownership
+This directory explains how `workshop-db` should be developed and maintained as
+a standalone database infrastructure repository.
 
-- scope: managed PostgreSQL, baseline configuration, and credentials
-- out of scope: migrations, evolutionary schema, seeds, and application domain logic
+## Read This First
 
-## Repository structure
+- Start with [../README.md](../README.md) for the repository purpose, commands, and delivery flow.
+- Read [architecture.md](architecture.md) before deciding whether database-related work belongs here.
+- Read [development.md](development.md) before changing Terraform or CI behavior.
+- Read [../AGENTS.md](../AGENTS.md) if you are using an AI agent in this repository.
 
-- `terraform/`: reusable PostgreSQL module and root environment composition
-- `terraform/environments/stag/`: staging backend and tfvars examples
-- `terraform/environments/prod/`: production backend and tfvars examples
-- `.github/`: templates, ownership, and minimum automation
+## Document Map
 
-## Environments
+- [architecture.md](architecture.md) - current boundaries and database architecture guidance
+- [development.md](development.md) - Terraform workflow, validation commands, and doc rules
+- [../AGENTS.md](../AGENTS.md) - repo instructions for AI agents
+- [../.ai/project-context.md](../.ai/project-context.md) - compact AI-readable project context
+- [../.ai/contributing.md](../.ai/contributing.md) - AI-assisted change checklist
+- [../.ai/task-template.md](../.ai/task-template.md) - reusable task brief template
 
-- branch `stag` deploys into `staging`
-- branch `prod` deploys into `production`
-- AWS suffixes: `stag` and `prod`
+## Who Should Read What
 
-## GitHub environment variables
+- Engineers new to the repo: `README.md` then `development.md`
+- Engineers deciding ownership boundaries: `architecture.md`
+- AI-assisted contributors: `AGENTS.md` and `.ai/project-context.md`
+
+## Current Working Contract
+
+- `terraform/modules/postgresql` owns the reusable PostgreSQL building blocks
+- `terraform/environments/stag` and `terraform/environments/prod` document backend and input examples
+- root Terraform outputs define the database connection contract exposed by this repository
+- this repo still does not own migrations, schema, seeds, or queries
+
+## GitHub Environment Variables
 
 Configure these variables separately in the `staging` and `production` GitHub environments:
 
@@ -36,7 +50,7 @@ Configure these variables separately in the `staging` and `production` GitHub en
 `DB_PRIVATE_SUBNET_IDS`, `DB_ALLOWED_SECURITY_GROUP_IDS`, and `DB_ALLOWED_CIDR_BLOCKS` must be JSON arrays, for example `["subnet-0123","subnet-0456"]`.
 `DB_ALLOWED_SECURITY_GROUP_IDS`, `DB_ALLOWED_CIDR_BLOCKS`, `DB_NAME`, and `DB_MASTER_USERNAME` can be omitted when the Terraform defaults are acceptable.
 
-## Terraform outputs
+## Terraform Outputs
 
 Downstream repositories consume the database contract through these outputs:
 
@@ -52,6 +66,6 @@ Additional operational outputs:
 - `db_subnet_group_name`
 - `db_parameter_group_name`
 
-## Out of scope
+## Out Of Scope
 
 This repository must not contain SQL migrations, Drizzle schema, seeds, queries, or application domain rules.
