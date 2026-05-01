@@ -111,3 +111,32 @@ jobs:
 
       - name: Terraform apply
         run: terraform apply -auto-approve tfplan
+
+  stop-staging-after-delay:
+    name: stop staging after delay
+    needs:
+      - validate-ref
+      - deploy
+    if: ${{ needs.validate-ref.outputs.deploy_env == 'stag' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    environment:
+      name: staging
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      DB_INSTANCE_IDENTIFIER: workshop-db-stag-postgres
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Wait before stopping staging database
+        run: sleep 7200
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+
+      - name: Stop staging database
+        run: ./scripts/stop-stag-db.sh
