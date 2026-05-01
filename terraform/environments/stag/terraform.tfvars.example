@@ -1,0 +1,23 @@
+aws_region = "us-east-1"
+vpc_id     = "vpc-0123456789abcdef0"
+
+private_subnet_ids = [
+  "subnet-0123456789abcdef0",
+  "subnet-0fedcba9876543210"
+]
+
+allowed_security_group_ids = [
+  "sg-0123456789abcdef0",
+  "sg-0fedcba9876543210"
+]
+
+db_name                 = "workshop"
+db_master_username      = "workshop_admin"
+db_instance_class       = "db.t4g.micro"
+allocated_storage       = 20
+max_allocated_storage   = 25
+backup_retention_period = 1
+backup_window           = "04:00-05:00"
+maintenance_window      = "Mon:03:00-Mon:04:00"
+multi_az                = false
+deletion_protection     = false
