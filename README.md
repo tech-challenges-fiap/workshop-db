@@ -50,6 +50,15 @@ terraform init -reconfigure -backend-config=environments/stag/backend.hcl.exampl
 terraform plan -var-file=environments/stag/terraform.tfvars.example
 ```
 
+Stop the staging database when it is not being used:
+
+```bash
+./scripts/stop-stag-db.sh
+```
+
+The script defaults to `us-east-1` and `workshop-db-stag-postgres`. Override
+with `AWS_REGION` or `DB_INSTANCE_IDENTIFIER` when needed.
+
 ## Delivery Flow
 
 - `feature/* -> stag`: Pull Request validated by Terraform formatting, validation, and plan
