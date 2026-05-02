@@ -80,6 +80,10 @@ through the `Stop Production DB` workflow.
 - `prod` Pull Requests: drift-report and promotion-source workflows enforce branch discipline
 - `Create Promotion PR`: manual workflow that opens the `stag` to `prod` promotion PR when one does not already exist
 
+The `Create Promotion PR` workflow requires the `PROMOTION_PR_TOKEN` repository
+secret. Use a fine-grained GitHub token with access to this repository and
+pull request read/write permission.
+
 ## Documentation
 
 - [docs/README.md](docs/README.md) - docs index and reading guide
