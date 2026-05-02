@@ -45,8 +45,11 @@ Promotes the current \`${HEAD_BRANCH}\` branch to \`${BASE_BRANCH}\`.
 After this PR is merged, the \`Deploy\` workflow applies the production environment.
 EOF
 
-gh pr create \
+if ! gh pr create \
   --base "${BASE_BRANCH}" \
   --head "${HEAD_BRANCH}" \
   --title "${TITLE}" \
-  --body-file "${body_file}"
+  --body-file "${body_file}"; then
+  echo "Failed to create promotion PR. Check that PROMOTION_PR_TOKEN can create pull requests in this repository." >&2
+  exit 1
+fi
