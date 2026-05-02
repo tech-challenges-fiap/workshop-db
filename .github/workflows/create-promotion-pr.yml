@@ -1,0 +1,25 @@
+name: Create Promotion PR
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create:
+    name: create promotion pr
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BASE_BRANCH: prod
+      HEAD_BRANCH: stag
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create promotion PR
+        run: ./scripts/create-promotion-pr.sh
