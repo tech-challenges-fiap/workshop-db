@@ -59,10 +59,18 @@ Stop the staging database when it is not being used:
 The script defaults to `us-east-1` and `workshop-db-stag-postgres`. Override
 with `AWS_REGION` or `DB_INSTANCE_IDENTIFIER` when needed.
 
+Stop the production database when it is not being used:
+
+```bash
+./scripts/stop-prod-db.sh
+```
+
 Staging is also stopped automatically:
 
-- two hours after a successful `stag` deploy
 - every night at 03:00 America/Sao_Paulo, through the `Stop Staging DB` workflow
+
+Production is stopped automatically every night at 03:30 America/Sao_Paulo,
+through the `Stop Production DB` workflow.
 
 ## Delivery Flow
 

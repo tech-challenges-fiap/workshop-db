@@ -1,0 +1,32 @@
+name: Stop Production DB
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 6 * * *"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  stop:
+    name: stop production db
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      DB_INSTANCE_IDENTIFIER: workshop-db-prod-postgres
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+
+      - name: Stop production database
+        run: ./scripts/stop-prod-db.sh
