@@ -89,9 +89,9 @@ variable "db_port" {
 }
 
 variable "engine_version" {
-  description = "PostgreSQL engine version."
+  description = "PostgreSQL engine version. Keep the default at the major version so RDS selects an available minor version for the target region."
   type        = string
-  default     = "16.4"
+  default     = "16"
 }
 
 variable "db_instance_class" {
