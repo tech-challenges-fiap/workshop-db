@@ -67,7 +67,6 @@ Stop the production database when it is not being used:
 
 Staging is also stopped automatically:
 
-- two hours after a successful `stag` deploy
 - every night at 03:00 America/Sao_Paulo, through the `Stop Staging DB` workflow
 
 Production is stopped automatically every night at 03:30 America/Sao_Paulo,
