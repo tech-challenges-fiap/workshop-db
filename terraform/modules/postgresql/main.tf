@@ -1,8 +1,8 @@
 locals {
   credentials_secret_name = "${var.name_prefix}-credentials"
-  network_name_suffix     = substr(replace(var.vpc_id, "vpc-", ""), 0, 8)
-  db_security_group_name  = "${var.name_prefix}-db-${local.network_name_suffix}"
-  db_subnet_group_name    = "${var.name_prefix}-subnets-${local.network_name_suffix}"
+  network_name_suffix     = var.network_resource_name_suffix == "" ? "" : "-${var.network_resource_name_suffix}"
+  db_security_group_name  = "${var.name_prefix}-db${local.network_name_suffix}"
+  db_subnet_group_name    = "${var.name_prefix}-subnets${local.network_name_suffix}"
   parameter_group_family  = "postgres${split(".", var.engine_version)[0]}"
   parameter_group_name    = "${var.name_prefix}-postgres"
   postgres_identifier     = "${var.name_prefix}-${var.resource_suffix}"

@@ -48,6 +48,17 @@ variable "private_subnet_ids" {
   }
 }
 
+variable "network_resource_name_suffix" {
+  description = "Optional suffix for network resources when an environment needs replacement names, for example during a VPC move."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = can(regex("^[a-z0-9-]*$", var.network_resource_name_suffix))
+    error_message = "network_resource_name_suffix must contain only lowercase letters, numbers, and hyphens."
+  }
+}
+
 variable "allowed_security_group_ids" {
   description = "Security groups allowed to connect to PostgreSQL."
   type        = list(string)
