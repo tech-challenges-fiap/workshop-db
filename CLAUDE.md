@@ -2,11 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## What This Repository Is
+## Overview
 
 `workshop-db` provisions PostgreSQL infrastructure (AWS RDS) for the `workshop` service. It owns Terraform only — no migrations, seeds, application code, or shared networking.
 
-## Validation Commands
+## Commands
 
 Always run from `terraform/`:
 
@@ -44,6 +44,6 @@ Root outputs exposed as the infrastructure contract: `db_host`, `db_port`, `db_n
 - `push` to `stag` or `prod` triggers `deploy.yml` which runs `terraform apply` via AWS OIDC
 - PRs trigger `pr-validation.yml` (fmt, validate, plan) using environment-specific GitHub variables
 
-## Documentation Rules
+## Documentation
 
 Update `README.md`, `docs/`, and `.ai/` in the same change when you modify Terraform variables, outputs, naming conventions, validation commands, or workflow behavior. Do not document resources that the Terraform code does not define.
