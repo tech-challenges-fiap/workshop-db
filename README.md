@@ -1,5 +1,7 @@
 # workshop-db
 
+[![Prod/Stag sync](https://github.com/tech-challenges-fiap/workshop-db/actions/workflows/branch-sync.yml/badge.svg)](https://github.com/tech-challenges-fiap/workshop-db/actions/workflows/branch-sync.yml)
+
 `workshop-db` owns PostgreSQL infrastructure for the `workshop` service.
 It provisions and names managed database resources, but it does not own schema
 evolution or application behavior.
