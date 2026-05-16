@@ -1,0 +1,55 @@
+name: Sync Stag After Prod Promotion
+
+on:
+  push:
+    branches:
+      - prod
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-stag-after-prod-promotion
+  cancel-in-progress: false
+
+jobs:
+  sync-stag:
+    name: sync stag after prod promotion
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch branches
+        run: git fetch origin prod stag --no-tags
+
+      - name: Fast-forward stag when safe
+        run: |
+          set -euo pipefail
+
+          prod_sha="$(git rev-parse origin/prod)"
+          stag_sha="$(git rev-parse origin/stag)"
+
+          echo "prod: ${prod_sha}"
+          echo "stag: ${stag_sha}"
+
+          if [ "${prod_sha}" = "${stag_sha}" ]; then
+            echo "stag already points to prod."
+            exit 0
+          fi
+
+          if ! git diff --quiet origin/prod origin/stag -- .; then
+            echo "::notice title=Stag not synced::prod and stag content differs; leaving stag unchanged."
+            exit 0
+          fi
+
+          if ! git merge-base --is-ancestor origin/stag origin/prod; then
+            echo "::notice title=Stag not synced::stag contains commits that are not in prod; leaving stag unchanged."
+            exit 0
+          fi
+
+          git push origin "${prod_sha}:refs/heads/stag"
+          echo "stag fast-forwarded to prod."
