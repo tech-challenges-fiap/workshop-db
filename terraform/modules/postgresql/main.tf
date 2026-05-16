@@ -1,7 +1,8 @@
 locals {
   credentials_secret_name = "${var.name_prefix}-credentials"
-  db_security_group_name  = "${var.name_prefix}-db"
-  db_subnet_group_name    = "${var.name_prefix}-subnets"
+  network_name_suffix     = substr(replace(var.vpc_id, "vpc-", ""), 0, 8)
+  db_security_group_name  = "${var.name_prefix}-db-${local.network_name_suffix}"
+  db_subnet_group_name    = "${var.name_prefix}-subnets-${local.network_name_suffix}"
   parameter_group_family  = "postgres${split(".", var.engine_version)[0]}"
   parameter_group_name    = "${var.name_prefix}-postgres"
   postgres_identifier     = "${var.name_prefix}-${var.resource_suffix}"
@@ -36,6 +37,10 @@ resource "aws_db_subnet_group" "postgres" {
   description = "Private subnets for ${local.postgres_identifier}."
   subnet_ids  = var.private_subnet_ids
   tags        = var.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group" "db" {
@@ -43,6 +48,10 @@ resource "aws_security_group" "db" {
   name        = local.db_security_group_name
   vpc_id      = var.vpc_id
   tags        = var.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "from_security_groups" {
