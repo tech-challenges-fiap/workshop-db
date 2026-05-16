@@ -18,6 +18,11 @@ variable "private_subnet_ids" {
   type        = list(string)
 }
 
+variable "network_resource_name_suffix" {
+  description = "Optional suffix for DB network resource names."
+  type        = string
+}
+
 variable "allowed_security_group_ids" {
   description = "Security groups allowed to reach PostgreSQL."
   type        = list(string)
