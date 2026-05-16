@@ -1,6 +1,6 @@
 # workshop-db
 
-[![prod/stag](https://img.shields.io/badge/dynamic/json?label=prod%2Fstag&query=%24.status&url=https%3A%2F%2Fapi.github.com%2Frepos%2Ftech-challenges-fiap%2Fworkshop-db%2Fcompare%2Fprod...stag&color=blue)](https://github.com/tech-challenges-fiap/workshop-db/compare/prod...stag)
+[![prod/stag](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftech-challenges-fiap%2Fworkshop-db%2Fbadges%2Fbadges%2Fprod-stag-sync.json)](https://github.com/tech-challenges-fiap/workshop-db/compare/prod...stag)
 
 `workshop-db` owns PostgreSQL infrastructure for the `workshop` service.
 It provisions and names managed database resources, but it does not own schema
