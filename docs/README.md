@@ -13,6 +13,7 @@ a standalone database infrastructure repository.
 ## Document Map
 
 - [architecture.md](architecture.md) - current boundaries and database architecture guidance
+- [database-choice.md](database-choice.md) - justificativa formal da escolha do PostgreSQL como banco de dados
 - [development.md](development.md) - Terraform workflow, validation commands, and doc rules
 - [../AGENTS.md](../AGENTS.md) - repo instructions for AI agents
 - [../.ai/project-context.md](../.ai/project-context.md) - compact AI-readable project context
