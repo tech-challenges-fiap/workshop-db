@@ -41,7 +41,7 @@ terraform plan -var-file=environments/stag/terraform.tfvars.example
 - Build features from `feature/*` branches
 - Open Pull Requests into `stag` for normal integration
 - Promote to `prod` only from `stag`
-- Expect `pr-validation.yml` to run Terraform formatting, validation, and plan
+- Expect `pr-validation.yml` to run Terraform formatting, initialization, and validation without remote state
 - Expect `deploy.yml` to use AWS OIDC, remote state, and `terraform apply`
 - Expect `promotion-source.yml` and `drift-report.yml` to protect production promotions
 
