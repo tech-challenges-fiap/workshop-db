@@ -54,7 +54,7 @@ terraform plan -var-file=environments/stag/terraform.tfvars.example
 
 ## Delivery Flow
 
-- `feature/* -> stag`: Pull Request validated by Terraform formatting, validation, and plan
+- `feature/* -> stag`: Pull Request validated by Terraform formatting, initialization, and validation
 - `stag -> prod`: promotion Pull Request allowed only from `stag`
 - `push` to `stag` or `prod`: deployment workflow uses AWS OIDC and runs Terraform apply
 - `prod` Pull Requests: drift-report and promotion-source workflows enforce branch discipline
