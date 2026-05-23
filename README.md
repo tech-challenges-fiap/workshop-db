@@ -68,5 +68,9 @@ pull request read/write permission.
 
 - [docs/README.md](docs/README.md) - docs index and reading guide
 - [docs/architecture.md](docs/architecture.md) - repository boundaries and target database role
+- [docs/database-choice.md](docs/database-choice.md) - formal justification for PostgreSQL and migration rationale
 - [docs/development.md](docs/development.md) - Terraform workflow, validation, and documentation rules
 - [AGENTS.md](AGENTS.md) - instructions for AI contributors
+
+Transversal architecture documentation (component diagrams, sequence diagrams, ER model, RFCs, ADRs) is
+maintained in [workshop-app/docs](https://github.com/tech-challenges-fiap/workshop-app/blob/stag/docs/README.md).
