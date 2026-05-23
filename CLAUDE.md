@@ -42,7 +42,7 @@ Root outputs exposed as the infrastructure contract: `db_host`, `db_port`, `db_n
 - Open PRs into `stag` (never directly into `prod`)
 - `prod` is updated only through the `stag → prod` promotion PR, merged with a merge commit (no squash, no rebase)
 - `push` to `stag` or `prod` triggers `deploy.yml` which runs `terraform apply` via AWS OIDC
-- PRs trigger `pr-validation.yml` (fmt, validate, plan) using environment-specific GitHub variables
+- PRs trigger `pr-validation.yml` (fmt, init without remote state, validate) without protected GitHub environments
 
 ## Documentation
 
