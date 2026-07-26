@@ -32,6 +32,9 @@ Formal outputs exposed by the root module:
 - `db_name`
 - `db_secret_arn`
 - `db_security_group_id`
+- `db_instance_identifier`
+- `db_subnet_group_name`
+- `db_parameter_group_name`
 
 ## Local Commands
 
